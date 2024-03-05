@@ -1,0 +1,62 @@
+import random
+import requests
+from PIL import Image
+from io import BytesIO
+
+def mostrar_imagem(imagem_url):
+    response = requests.get(imagem_url)
+    imagem = Image.open(BytesIO(response.content))
+    imagem.thumbnail((300, 300))  # Redimensiona a imagem para uma exibição mais amigável
+    display(imagem)
+
+def criar_personagem():
+    print("Você está prestes a embarcar em uma grande jornada...")
+    nome = input("Digite o nome do seu personagem: ")
+    print("\nBem-vindo, {}!".format(nome))
+    print("Você é um hobbit corajoso, determinado a encontrar aventuras épicas.\n")
+    print("Aqui está uma imagem do seu personagem:")
+    mostrar_imagem("https://cdn.openart.ai/stable_diffusion/194719e44dae25af235ac11972e8e7f3e49d118f_2000x2000.webp")
+    return nome
+
+def inicio_encontro():
+    print("\nEnquanto você se aventura mais fundo na floresta, a noite começa a cair...")
+    print("De repente, você se depara com um pequeno goblin!")
+    mostrar_imagem("https://i.pinimg.com/236x/48/ee/e2/48eee214552e778d051eda0cfe4d8ff7.jpg")
+
+def conversa_com_goblin():
+    print("\nO goblin parece olhar para você com curiosidade. Ele se aproxima lentamente.")
+    print("Goblin: Quem é você e o que está fazendo na minha floresta?")
+    print("1. Olá, amigo goblin. Vim em paz. Estou apenas de passagem.")
+    print("2. Meu nome é {}. Estou em busca de aventuras e desafios!".format(nome_personagem))
+    print("3. Prepare-se para a batalha, goblin insolente!")
+
+def batalha():
+    print("\nA batalha está prestes a começar!")
+    resultado_dado = random.randint(1, 6)
+    print("Você rola um dado de 1d6...")
+    print("Resultado:", resultado_dado)
+    if resultado_dado < 3:
+        print("Você rolou um número baixo. O goblin derrota você!")
+    else:
+        print("Você derrota o goblin com bravura!")
+
+def main():
+    global nome_personagem
+    nome_personagem = criar_personagem()
+    inicio_encontro()
+    conversa_com_goblin()
+    opcao = int(input("\nEscolha uma opção (1-3): "))
+    if opcao == 1:
+        print("\nGoblin: Muito bem, você pode passar. Mas esteja avisado, intruso, esta floresta é perigosa.")
+    elif opcao == 2:
+        print("\nGoblin: Um aventureiro, hein? Que assim seja! Mas saiba que eu não serei tão fácil de lidar.")
+    elif opcao == 3:
+        print("\nGoblin: Muito bem, valente! Prepare-se para o seu destino!")
+    else:
+        print("Opção inválida. O goblin parece confuso com suas palavras.")
+
+    if opcao == 1 or opcao == 2 or opcao == 3:
+        batalha()
+
+if __name__ == "__main__":
+    main()
